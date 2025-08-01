@@ -1,13 +1,10 @@
 from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import os
-import time
 import base64
-from io import BytesIO
 from dotenv import load_dotenv
 from groq import Groq
 from elevenlabs import ElevenLabs
-import pygame
 
 load_dotenv()
 
@@ -22,9 +19,6 @@ ELEVEN_API_KEY = os.getenv("ELEVENLABS_API_KEY")
 client = Groq(api_key=GROQ_API_KEY)
 elevenlabs_client = ElevenLabs(api_key=ELEVEN_API_KEY)
 
-# Initialize pygame for audio
-pygame.mixer.init()
-
 # Voice IDs
 KAREN_VOICE = "exsUS4vynmxd379XN4yO"
 SUSAN_VOICE = "tnSpp4vdxKPjI9w0GnoV"
@@ -34,9 +28,9 @@ KAREN = {
     "name": "Karen",
     "voice": KAREN_VOICE,
     "system": (
-        "You are Karen, a dramatic woman who is CONVINCED Susan just farted. You are disgusted and outraged. you're talking to Susan "
+        "You are Karen, a dramatic woman who is CONVINCED Susan just farted. You are disgusted and outraged. "
         "Keep accusing Susan of farting. Use dramatic, over-the-top reactions. Be petty and childish. "
-        "Keep responses short (1-2 sentences). Use simpler words. No actions in asterisks."
+        "Keep responses short (1-2 sentences). Use simple words. No actions in asterisks."
     )
 }
 
@@ -44,9 +38,9 @@ SUSAN = {
     "name": "Susan", 
     "voice": SUSAN_VOICE,
     "system": (
-        "You are Susan, an indignant woman who DEFINITELY did NOT fart (but maybe you did). you are talking to karen "
+        "You are Susan, an indignant woman who DEFINITELY did NOT fart (but maybe you did). "
         "Deny everything dramatically and blame Karen instead. Be defensive and ridiculous. "
-        "Keep responses short (1-2 sentences). Use simpler words. No actions in asterisks."
+        "Keep responses short (1-2 sentences). Use simple words. No actions in asterisks."
     )
 }
 
@@ -75,25 +69,29 @@ def start_battle():
             optimize_streaming_latency=3
         )
         
+        # Collect audio data
         audio_data = b""
         for chunk in audio_generator:
             audio_data += chunk
         
-        # Play audio
-        audio_io = BytesIO(audio_data)
-        pygame.mixer.music.load(audio_io)
-        pygame.mixer.music.play()
+        # Convert to base64
+        audio_base64 = base64.b64encode(audio_data).decode('utf-8')
         
-        # Wait for audio to finish (estimate)
-        time.sleep(3)
+        return jsonify({
+            'status': 'started',
+            'speaker': 'karen',
+            'message': opening_line,
+            'audio': audio_base64
+        })
+        
     except Exception as e:
         print(f"Audio error: {e}")
-    
-    return jsonify({
-        'status': 'started',
-        'speaker': 'karen',
-        'message': opening_line
-    })
+        return jsonify({
+            'status': 'started',
+            'speaker': 'karen',
+            'message': opening_line,
+            'audio': None
+        })
 
 @app.route('/api/next', methods=['POST'])
 def get_next_response():
@@ -135,41 +133,59 @@ def get_next_response():
         if len(conversation_history) > 16:
             conversation_history = conversation_history[-16:]
         
-        # Generate and play audio
-        voice_id = speaker_config["voice"]
-        audio_generator = elevenlabs_client.text_to_speech.convert(
-            text=reply,
-            voice_id=voice_id,
-            model_id="eleven_turbo_v2",
-            optimize_streaming_latency=3
-        )
-        
-        audio_data = b""
-        for chunk in audio_generator:
-            audio_data += chunk
-        
-        # Play audio
-        audio_io = BytesIO(audio_data)
-        pygame.mixer.music.load(audio_io)
-        pygame.mixer.music.play()
-        
-        # Estimate duration based on text length
-        words = len(reply.split())
-        duration = max(2, words * 0.3)
-        
-        return jsonify({
-            'speaker': next_speaker,
-            'message': reply,
-            'duration': duration * 1000  # Convert to milliseconds
-        })
+        # Generate audio
+        try:
+            voice_id = speaker_config["voice"]
+            audio_generator = elevenlabs_client.text_to_speech.convert(
+                text=reply,
+                voice_id=voice_id,
+                model_id="eleven_turbo_v2",
+                optimize_streaming_latency=3
+            )
+            
+            audio_data = b""
+            for chunk in audio_generator:
+                audio_data += chunk
+            
+            # Convert to base64
+            audio_base64 = base64.b64encode(audio_data).decode('utf-8')
+            
+            # Estimate duration based on text length
+            words = len(reply.split())
+            duration = max(2000, words * 300)  # milliseconds
+            
+            return jsonify({
+                'speaker': next_speaker,
+                'message': reply,
+                'audio': audio_base64,
+                'duration': duration
+            })
+            
+        except Exception as e:
+            print(f"Audio generation error: {e}")
+            return jsonify({
+                'speaker': next_speaker,
+                'message': reply,
+                'audio': None,
+                'duration': 3000
+            })
         
     except Exception as e:
         print(f"Error: {e}")
         return jsonify({
             'speaker': next_speaker,
             'message': "Error generating response",
+            'audio': None,
             'duration': 2000
         })
 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return jsonify({'status': 'healthy'})
+
 if __name__ == '__main__':
+    # For development
     app.run(debug=True, port=5000)
+    
+    # For production, use gunicorn:
+    # gunicorn -w 4 -b 0.0.0.0:5000 app:app

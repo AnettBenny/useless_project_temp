@@ -1,6 +1,6 @@
-flask==3.0.0
-flask-cors==4.0.0
-groq==0.4.1
-elevenlabs==1.2.2
-python-dotenv==1.0.0
-pygame==2.5.2
+flask
+flask-cors
+groq
+elevenlabs
+python-dotenv
+gunicorn
