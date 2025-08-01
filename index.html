@@ -144,6 +144,24 @@
             filter: grayscale(50%);
         }
 
+        .start-battle-btn {
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 30px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .start-battle-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
         .status-text {
             color: white;
             font-size: 1.2em;
@@ -154,9 +172,9 @@
 <body>
     <!-- Login Page -->
     <div class="login-container" id="loginPage">
-        <h1>🌬️ FREE DIARRHEA TEST 💨</h1>
-        <p>Hold button for 3 seconds  to authenticate!</p>
-        <button class="fart-button" id="fartBtn">Hold & Fart</button>
+        <h1>🌬️FREE DIARRHEA DIAGNOSIS💨</h1>
+        <p>Hold button for 3 seconds to authenticate!</p>
+        <button class="fart-button" id="fartBtn">Hold & Make Noise</button>
         <div class="volume-meter">
             <div class="volume-bar" id="volumeBar"></div>
         </div>
@@ -165,13 +183,14 @@
 
     <!-- Loading Screen -->
     <div class="loading" id="loadingScreen">
-        <h1>Loading Fart Analyzer</h1>
+        <h1>LOADING THE FART ANALYZER</h1>
         <div class="loading-animation"></div>
+        <button class="start-battle-btn" id="startBattleBtn">START ANALYZING</button>
     </div>
 
     <!-- Battle Container -->
     <div class="battle-container" id="battleContainer">
-        <h1 class="battle-title">Analyzing the Fart...</h1>
+        <h1 class="battle-title">ANALYZING FART...</h1>
         <div class="characters">
             <div class="character" id="karenCharacter">
                 <img id="karenImg" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Karen&backgroundColor=ff6b6b" alt="Karen">
@@ -188,6 +207,9 @@
         const KAREN_STATIC = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Karen&backgroundColor=ff6b6b';
         const SUSAN_TALKING = 'https://media.giphy.com/media/l0HlPwMAzh13pcZ20/giphy.gif';
         const SUSAN_STATIC = 'https://api.dicebear.com/7.x/avataaars/svg?seed=Susan&backgroundColor=4ecdc4';
+        
+        // API URL - Update this with your Render URL
+        const API_URL = window.location.origin; // This automatically uses the current domain
 
         // Elements
         const loginPage = document.getElementById('loginPage');
@@ -249,11 +271,22 @@
                 loginPage.style.display = 'none';
                 loadingScreen.style.display = 'block';
                 
-                setTimeout(() => {
+                // Set up the start battle button
+                const startBattleBtn = document.getElementById('startBattleBtn');
+                startBattleBtn.onclick = () => {
+                    // Create and play a tiny silent sound to unlock audio context
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const buffer = audioContext.createBuffer(1, 1, 22050);
+                    const source = audioContext.createBufferSource();
+                    source.buffer = buffer;
+                    source.connect(audioContext.destination);
+                    source.start();
+                    
+                    // Hide loading screen and start battle
                     loadingScreen.style.display = 'none';
                     battleContainer.style.display = 'block';
                     startBattle();
-                }, 2000);
+                };
             }, 500);
         }
 
@@ -267,7 +300,7 @@
             
             try {
                 // Start the battle with Karen's opening
-                const response = await fetch('http://localhost:5000/api/start', {
+                const response = await fetch(`${API_URL}/api/start`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
@@ -296,7 +329,7 @@
             if (!battleActive) return;
             
             try {
-                const response = await fetch('http://localhost:5000/api/next', {
+                const response = await fetch(`${API_URL}/api/next`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ currentSpeaker: lastSpeaker })
@@ -332,10 +365,50 @@
                 
                 // Create new audio element
                 currentAudio = new Audio(`data:audio/mpeg;base64,${base64Audio}`);
-                currentAudio.play().catch(e => console.error('Audio play error:', e));
+                
+                // Add error handling
+                currentAudio.onerror = (e) => {
+                    console.error('Audio error:', e);
+                    // Try to unlock audio context on error
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    ctx.resume();
+                };
+                
+                // Play with promise handling
+                const playPromise = currentAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('Audio playing successfully');
+                        })
+                        .catch(error => {
+                            console.error('Audio play error:', error);
+                            // Show visual feedback that audio failed
+                            showAudioError();
+                        });
+                }
             } catch (error) {
                 console.error('Error playing audio:', error);
+                showAudioError();
             }
+        }
+        
+        function showAudioError() {
+            // Add a small notification that audio isn't working
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff6b6b;
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                z-index: 1000;
+            `;
+            notification.textContent = '🔇 Audio unavailable - Check volume/permissions';
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
         }
 
         function updateCharacters(speaker) {
