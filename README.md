@@ -14,7 +14,7 @@
 
 ### Project Description
 ChatBrawl is a deliberately useless website that redefines the boundaries of authentication, AI interaction, and digital healthcare—all by doing absolutely nothing well.
-It’s a flawless failure—a comedic experiment in dysfunctional design, AI chaos, and bodily humor. Created specifically for the Useless Projects Hackathon, TootSecure proves one thing:
+It’s a flawless failure—a comedic experiment in dysfunctional design, AI chaos, and bodily humor. Created specifically for the Useless Projects Hackathon, ChatBrawl proves one thing:
 Not all ideas need to be good—some just need to make noise.
 
 ### The Problem (that doesn't exist)
@@ -25,7 +25,7 @@ People desperately need instant, AI-powered diarrhea analysis from the comfort o
 ### The Solution (that nobody asked for)
 ChatBrawl is a fart-based authentication and non-diagnostic diarrhea analysis portal. Users authenticate using a highly insecure and non-functional fart recognition system. Once a toot is detected (or not), two extremely insecure chatbots, *Karen* and *Susan*, begin fighting over who passed gas. This argument spirals into an endless roast battle, completely hijacking the page and preventing access to any further functionality. The website falsely claims to offer diarrhea diagnostics, but this is merely a decoy to lure users into the bot brawl. The result? A spectacularly useless site that wastes time and delivers nothing.
 
-The site begins by asking users to authenticate themselves with a fart sound. No password, no face scan—just pure, unfiltered audio flatulence. If the user passes (gas), the page doesn’t move forward. Instead, it triggers the appearance of two rogue AI chatbots: GPT-Poot and BarkGPT. These bots immediately begin arguing about who farted, throwing increasingly childish insults and roasting each other in an endless loop.
+The site begins by asking users to authenticate themselves with a fart sound. No password, no face scan—just pure, unfiltered audio flatulence. If the user passes (gas), the page doesn’t move forward. Instead, it triggers the appearance of two rogue AI chatbots: Karen and Susan. These bots immediately begin arguing about who farted, throwing increasingly childish insults and roasting each other in an endless loop.
 As the roast battle escalates, the site promises users a “cutting-edge diarrhea diagnosis” based on their fart profile. That analysis never comes. The page stalls indefinitely in a state of infinite chatbot conflict. Users leave confused, unhelped, and unverified.
 
 ## Technical Details
@@ -41,21 +41,41 @@ For Software:
 For Software:
 # Installation
 bash
-git clone https://github.com/yourusername/free-diarrhea-analyzer.git
-cd free-diarrhea-analyzer
+git clone https://github.com/AnettBenny/useless_project_temp.git
 pip install -r requirements.txt
 
 
 # Run
-bash
-# Create .env file with your API keys
-echo "GROQ_API_KEY=your_groq_key" > .env
-echo "ELEVENLABS_API_KEY=your_elevenlabs_key" >> .env
+Due to modern browser restrictions, blending or auto-playing bot-generated fart audio is not possible when deployed on the web — here's why:
 
-# Run the Flask app
-python app.py
+❌ Why It Doesn’t Work
+Browsers block audio autoplay unless it's triggered by direct user interaction (click/tap).
+Base64 audio (used for bot-generated farts) often gets blocked, fails to load smoothly, or is treated as suspicious content (especially on mobile).
+Simultaneous playback of dynamic audio blobs is restricted, making "fart dialogue" blending unreliable.
+Some platforms (especially Chrome + Safari) treat these as ad-like behavior and cancel playback silently.
 
-# Visit http://localhost:5000
+# How to locally deploy
+
+Clone the repository & navigate into it
+- git clone https://github.com/AnettBenny/useless_project_temp.git
+- cd useless_project_temp
+
+Create and activate virtual environment
+- python -m venv env
+- Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+- .\env\Scripts\Activate.ps1
+
+Install required Python packages
+- pip install -r requirements.txt
+
+Start the backend server
+- python app.py
+
+Open the app
+Visit http://127.0.0.1:5000 in your browser.
+ 
+
+# Visit http: https://useless-project-temp-373a.onrender.com/
 
 
 ### Project Documentation
@@ -76,10 +96,6 @@ The eternal loading screen featuring Karen and Susan in their never-ending argum
 
 The AI-powered argument interface showing character animations and the ongoing blame game
 
-# Diagrams
-![Workflow](https://github.com/user-attachments/assets/workflow-diagram.png)
-System architecture showing how user expectations are systematically destroyed through AI-powered disappointment
-
 
 User Flow:
 1. User sees "Free Diarrhea Analysis" → Excitement
@@ -91,16 +107,13 @@ User Flow:
 
 ### Project Demo
 # Video
-[Demo Video Link](https://your-demo-video-link.com)
+![demo link](https://youtu.be/YC2sUM65aig?si=MOqDBH7_inO8JW_1)
 Watch as unsuspecting users experience the full journey from medical hope to AI-powered chaos. Features real user reactions and the endless loop of accusations.
-
-# Additional Demos
-- [Live Demo on Render](https://your-app.onrender.com)
-- [The Bots Still Fighting After 48 Hours](https://your-livestream-link.com)
+The Bots Still Fighting After 48 Hours.
 
 ## Team Contributions
 - Leya Susan Riboy: Backend development, AI integration, deployment
-- Anett Benny: Frontend design, fart authentication system, voice synthesis integration, character development
+- Anett Benny: Frontend design, fart authentication system, voice synthesis integration
 
 ---
 Made with ❤ at TinkerHub Useless Projects 
