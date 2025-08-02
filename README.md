@@ -1,7 +1,7 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# CHATBRAWL 🎯
 
 
 ## Basic Details
@@ -13,7 +13,7 @@
 - Member 2: Anett Benny - LBS Institute Of Technology For Women, Poojapura
 
 ### Project Description
-TootSecure is a deliberately useless website that redefines the boundaries of authentication, AI interaction, and digital healthcare—all by doing absolutely nothing well.
+ChatBrawl is a deliberately useless website that redefines the boundaries of authentication, AI interaction, and digital healthcare—all by doing absolutely nothing well.
 It’s a flawless failure—a comedic experiment in dysfunctional design, AI chaos, and bodily humor. Created specifically for the Useless Projects Hackathon, TootSecure proves one thing:
 Not all ideas need to be good—some just need to make noise.
 
@@ -23,7 +23,7 @@ People desperately need instant, AI-powered diarrhea analysis from the comfort o
 
 
 ### The Solution (that nobody asked for)
- is a fart-based authentication and non-diagnostic diarrhea analysis portal. Users authenticate using a highly insecure and non-functional fart recognition system. Once a toot is detected (or not), two extremely insecure chatbots, *Karen* and *Susan*, begin fighting over who passed gas. This argument spirals into an endless roast battle, completely hijacking the page and preventing access to any further functionality. The website falsely claims to offer diarrhea diagnostics, but this is merely a decoy to lure users into the bot brawl. The result? A spectacularly useless site that wastes time and delivers nothing.
+ChatBrawl is a fart-based authentication and non-diagnostic diarrhea analysis portal. Users authenticate using a highly insecure and non-functional fart recognition system. Once a toot is detected (or not), two extremely insecure chatbots, *Karen* and *Susan*, begin fighting over who passed gas. This argument spirals into an endless roast battle, completely hijacking the page and preventing access to any further functionality. The website falsely claims to offer diarrhea diagnostics, but this is merely a decoy to lure users into the bot brawl. The result? A spectacularly useless site that wastes time and delivers nothing.
 
 The site begins by asking users to authenticate themselves with a fart sound. No password, no face scan—just pure, unfiltered audio flatulence. If the user passes (gas), the page doesn’t move forward. Instead, it triggers the appearance of two rogue AI chatbots: GPT-Poot and BarkGPT. These bots immediately begin arguing about who farted, throwing increasingly childish insults and roasting each other in an endless loop.
 As the roast battle escalates, the site promises users a “cutting-edge diarrhea diagnosis” based on their fart profile. That analysis never comes. The page stalls indefinitely in a state of infinite chatbot conflict. Users leave confused, unhelped, and unverified.
@@ -63,13 +63,17 @@ For Software:
 
 # Screenshots
 
-![Authentication Screen](https://github.com/user-attachments/assets/screenshot1.png)
+![Authentication Screen](https://github.com/user-attachments/assets/337dbb45-1711-48d3-8e8a-34e65d7e1248)
+
 The deceptive medical-looking authentication screen where users must "provide a sample" by holding a button for 3 seconds
 
-![Loading Screen](https://github.com/user-attachments/assets/screenshot2.png)
+![Loading Screen](https://github.com/user-attachments/assets/b8281cbd-e9a2-408f-afee-604711312325)
+
 The eternal loading screen featuring Karen and Susan in their never-ending argument about who farted
 
-![Battle Interface](https://github.com/user-attachments/assets/screenshot3.png)
+![Battle Interface](https://github.com/user-attachments/assets/5e40c3bc-025a-43d6-9a62-801ae78005bb)
+![Battle Interface2](https://github.com/user-attachments/assets/8750c602-b031-484b-a8d8-869be43b0226)
+
 The AI-powered argument interface showing character animations and the ongoing blame game
 
 # Diagrams
